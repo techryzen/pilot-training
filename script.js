@@ -1102,11 +1102,11 @@ document.addEventListener('DOMContentLoaded', initContactForm);
 // Floating Chatbot Popup Functionality
 class ChatbotPopup {
     constructor() {
-        // API Configuration from environment variables
-        this.apiKey = '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';
+        // API Configuration - using new valid API key
+        this.apiKey = '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';
         this.apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
         this.model = 'x-ai/grok-4-fast:free';
-        this.siteUrl = 'http://localhost:8080';
+        this.siteUrl = 'http://localhost:8000';
         this.siteName = 'CodeGPT Chatbot';
         this.maxTokens = 2000;
         this.temperature = 0.7;
@@ -1325,8 +1325,24 @@ Always encourage safe flying practices and provide practical, actionable advice.
             this.addMessage(response, 'ai');
         } catch (error) {
             this.hideTypingIndicator();
-            this.addMessage('I apologize, but I\'m having trouble connecting right now. Please check your internet connection and try again.', 'ai');
             console.error('AI Response Error:', error);
+            
+            // Provide more specific error messages
+            let errorMessage = 'I apologize, but I\'m having trouble connecting right now. ';
+            
+            if (error.message.includes('API Error: 401')) {
+                errorMessage += 'There seems to be an authentication issue. Please check the API configuration.';
+            } else if (error.message.includes('API Error: 429')) {
+                errorMessage += 'Too many requests. Please wait a moment and try again.';
+            } else if (error.message.includes('API Error: 500')) {
+                errorMessage += 'The AI service is temporarily unavailable. Please try again later.';
+            } else if (error.message.includes('Failed to fetch')) {
+                errorMessage += 'Please check your internet connection and try again.';
+            } else {
+                errorMessage += 'Please try again in a moment.';
+            }
+            
+            this.addMessage(errorMessage, 'ai');
         }
     }
     
@@ -1384,7 +1400,8 @@ Always encourage safe flying practices and provide practical, actionable advice.
         });
         
         if (!response.ok) {
-            throw new Error(`API Error: ${response.status}`);
+            const errorText = await response.text();
+            throw new Error(`API Error: ${response.status} - ${errorText}`);
         }
         
         const data = await response.json();
