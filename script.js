@@ -1103,10 +1103,10 @@ document.addEventListener('DOMContentLoaded', initContactForm);
 class ChatbotPopup {
     constructor() {
         // API Configuration - using new valid API key
-        this.apiKey = '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';
+        this.apiKey = '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';
         this.apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
         this.model = 'x-ai/grok-4-fast:free';
-        this.siteUrl = 'http://localhost:8000';
+        this.siteUrl = 'https://techryzen.github.io/pilot-training/';
         this.siteName = 'CodeGPT Chatbot';
         this.maxTokens = 2000;
         this.temperature = 0.7;
