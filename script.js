@@ -1103,10 +1103,10 @@ document.addEventListener('DOMContentLoaded', initContactForm);
 class ChatbotPopup {
     constructor() {
         // API Configuration - using new valid API key
-        this.apiKey = 'xyz';
-        this.apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
-        this.model = 'x-ai/grok-4-fast:free';
-        this.siteUrl = 'https://techryzen.github.io/pilot-training/';
+        this.apiKey = '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';
+        this.apiUrl = 'https://api.openai.com/v1/chat/completions';
+        this.model = 'gpt-4o-mini';
+        this.siteUrl = 'http://localhost:8000';
         this.siteName = 'CodeGPT Chatbot';
         this.maxTokens = 2000;
         this.temperature = 0.7;
@@ -1387,8 +1387,6 @@ Always encourage safe flying practices and provide practical, actionable advice.
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${this.apiKey}`,
-                'HTTP-Referer': this.siteUrl,
-                'X-Title': this.siteName,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
